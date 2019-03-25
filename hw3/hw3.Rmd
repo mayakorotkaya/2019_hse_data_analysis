@@ -1,0 +1,15 @@
+### 3.1
+data <- read.csv('https://raw.githubusercontent.com/mayakorotkaya/2019_data_analysis_for_linguists/master/data/students/mayakorotkaya/hw2_Bayesian_inference/hw2_phoible.csv')
+prod(dnorm(data$consonants, 22, 6))
+### 3.2
+data1 <- read.csv('https://raw.githubusercontent.com/agricolamz/2019_data_analysis_for_linguists/master/data/letter_frequency.csv')
+df <- data_frame(model = c("French", "German", 'Spanish', 'Portuguese', 'Esperanto', 'Italian', 'Turkish', 'Swedish', 'Polish', 'Dutch', 'Danish', 'Icelandic', 'Finnish'),
+           prior = 1/13,
+           likelihood = sapply(1:13, function(k) data1[[k]][13]*data1[[k]][15]*data1[[k]][19]*data1[[k]][20]),
+           product = prior*likelihood,
+           posterior = product/sum(product))
+df %>% 
+  arrange(desc(posterior)) %>%
+  head(n = 1) %>% 
+  select(model)
+### 3.3
