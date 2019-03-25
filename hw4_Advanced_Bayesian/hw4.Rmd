@@ -1,1 +1,22 @@
-
+### 4.1
+df <- read.csv('https://raw.githubusercontent.com/agricolamz/2019_data_analysis_for_linguists/master/data/students/mayakorotkaya/hw4_Advanced_Bayesian/hw4_caretta.csv')
+sd_prior <- sd(df$vowel.dur)
+mean_prior <- mean(df$vowel.dur, trim = 0.1)
+df %>% 
+  filter(speaker=='brs02')->df_brs02
+sd_data <- sd(df_brs02$vowel.dur)
+mean_data <- mean(df_brs02$vowel.dur)
+sd_post <- (1/sd_prior+1/sd_data)^-1
+mean_post <- weighted.mean(c(mean_prior, mean_data), c(1/sd_prior, 1/sd_data))
+data.frame(sd_post = sd_post, mean_post = mean_post)
+### 4.2
+df <- read.csv('https://raw.githubusercontent.com/agricolamz/2019_data_analysis_for_linguists/master/data/students/mayakorotkaya/hw4_Advanced_Bayesian/hw4_caretta.csv')
+sd_prior <- sd(df$vowel.dur)
+mean_prior <- mean(df$vowel.dur, trim = 0.1)
+df %>% 
+  filter(speaker=='tt01')->df_tt01
+sd_data <- sd(df_tt01$vowel.dur)
+mean_data <- mean(df_tt01$vowel.dur)
+sd_post <- (1/sd_prior+1/sd_data)^-1
+mean_post <- weighted.mean(c(mean_prior, mean_data), c(1/sd_prior, 1/sd_data))
+data.frame(cred_int_l = qnorm(.025, mean = mean_post, sd = sd_post ), cred_int_r = qnorm(.975, mean = mean_post, sd = sd_post ))
