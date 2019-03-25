@@ -13,6 +13,5 @@ df %>%
   head(n = 1) %>% 
   select(model)
 ### 3.3
-
 x = seq(0, 1, length.out = 100)
 dbeta(x = x , 151, 148)
