@@ -1,0 +1,46 @@
+### 5.1
+df_chairs <- read.csv('https://raw.githubusercontent.com/agricolamz/2019_data_analysis_for_linguists/master/data/students/mayakorotkaya/hw5_CA_MCA/hw5_chairs.csv')
+install.packages('ca') 
+library(ca)
+df_chairs%>% 
+  select(4:19) -> df_chairs1
+MCA <- MASS::mca(df_chairs1) 
+MCA
+d <- cbind(df_chairs, MCA$rs)
+variables <- as_data_frame(MCA$cs)
+variables$var_names <- rownames(MCA$cs) 
+d %>% 
+  ggplot(aes(`1`, `2`))+ 
+  geom_point(aes(color = Category))+ 
+  stat_ellipse(aes(color = Category))+ 
+  geom_text(data = variables, aes(`1`, `2`, label = var_names))+ 
+  theme_bw()+ 
+  scale_x_continuous(limits = c(-0.015, 0.02))
+
+### 5.2
+Видимо, Sessel это более массивный стул-кресло-кровать из кожи, ткани. А Stuhl это скорее небольшой стульчик для рабочего места, может быть, настраиваемый, из бумаги.
+### 5.3
+colors_df <- read.csv('https://raw.githubusercontent.com/agricolamz/2019_data_analysis_for_linguists/master/data/students/mayakorotkaya/hw5_CA_MCA/hw5_colreg.csv')
+rownames(colors_df) <- colors_df$colors
+colors_df %>% 
+  select(1:4) -> colors_df1
+ca <- ca(colors_df1)
+ca
+summary(ca)
+colors_col <- data.frame(ca$colcoord)
+colors_col$rows <- rownames(ca$colcoord)
+
+colors_row <- data.frame(ca$rowcoord)
+colors_row$rows <- rownames(ca$rowcoord)
+
+colors_col %>% 
+  ggplot(aes(Dim1, Dim2, label = rows))+
+  geom_text(color = "blue")+
+  geom_text(data = colors_row, color = "red")+
+  theme_bw()+
+  labs(x = "Dim1 (42.1%)",
+       y = "Dim2 (32.6%)")
+
+### 5.4
+В корпусе разговорной речи - черный, в прессе - зеленый, оранжевый, красный. В фантастике - желтый, голубой и проч. 
+###
