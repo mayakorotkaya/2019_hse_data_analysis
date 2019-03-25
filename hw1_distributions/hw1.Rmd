@@ -1,0 +1,9 @@
+### 1.1
+f <- function(x) dlnorm(x, mean = 3, sd = 0.5)
+integrate(f, 25, 50)
+### 1.2
+a <- qlnorm(0.9, mean = 3, sd = 0.5)
+b <- qlnorm(0.1, mean = 3, sd = 0.5)
+
+f <- function(x) dlnorm(x, mean = 3, sd = 0.5)
+integrate(f, b, a)
